@@ -7,9 +7,11 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
+    // 入口文件
     entry: {
         main: "./src/main.js",
-        pageone: "./src/pages/pageone/pageone.js"//已多次提及的唯一入口文件
+        list: "./src/pages/list/list.js",
+        edit: "./src/pages/edit/edit.js"
         // pagetwo: "./src/pages/pagetwo/pagetwo.js",//已多次提及的唯一入口文件
     },
     output: {
@@ -19,7 +21,7 @@ module.exports = {
         chunkFilename:'./public/[name].js'
     },
     devServer: {
-        contentBase: "./public",
+        contentBase: "./src",
         historyApiFallback: true,
         inline: true,
         progress: true,
@@ -44,14 +46,19 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-          filename: 'pageone.html',// 表示最终打包之后的文件名称
-          template: './src/pages/pageone/pageone.html', // 表示要进行打包的文件
-          chunks: ['pageone']// 表示要进行需要进行引入打包的东西
+          filename: 'list.html',// 表示最终打包之后的文件名称
+          template: './src/pages/list/list.html', // 表示要进行打包的文件
+          chunks: ['list']// 表示要进行需要进行引入打包的东西
         }),
         new HtmlWebpackPlugin({
           filename: 'index.html',
-          template: './public/index.html',
+          template: './src/index.html',
           chunks: ['main']
+        }),
+        new HtmlWebpackPlugin({
+          filename: 'edit.html',
+          template: './src/pages/edit/edit.html',
+          chunks: ['edit']
         }),
         new OpenBrowserPlugin({ url: 'http://localhost:8080' })
     ]

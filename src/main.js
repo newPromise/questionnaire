@@ -1,9 +1,12 @@
-import '../public/index.html';
-import '../src/pages/pageone/pageone.js';
+import './index.html';
+import '../src/common/comCss.css';
+import './index.css';
+import {header} from '../src/components/header.js';
+import {$} from '../src/common/comJs.js';
 console.log('我是一段风流韵事');
 console.log('我是张宁宁放到');
-document.getElementById('btn').onclick = function () {
-  console.log('res');
-  alert('goood');
-  window.location.href = 'pageone.html';
-}
+console.log('.nairecontent', $('.nairecontent')[0].childNodes[0]);
+// let content = document.getElementsByClassName('nairecontent')[0];
+$('.nairecontent')[0].insertBefore(header(), $('.nairecontent')[0].childNodes[0]);
+console.log('使用header获得的文字', header());
+console.log($('.nairecontent'));

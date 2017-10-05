@@ -60,35 +60,27 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports) {
+/******/ ({
 
-module.exports = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Document</title>\r\n</head>\r\n<body>\r\n    <div>我是pageone</div>\r\n<script src=\"pageone.js\"></script>    \r\n</body>\r\n</html>\r\n"
-
-/***/ }),
-/* 1 */
+/***/ 13:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return b; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return c; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pageone_html__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pageone_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__pageone_html__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__edit_html__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__edit_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__edit_html__);
 
 
-let f = a => {
-  console.log(a);
-};
-let b = '宁';
-let c = '张宁宁';
-f('zhang');
+/***/ }),
 
+/***/ 14:
+/***/ (function(module, exports) {
 
+module.exports = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Document</title>\r\n</head>\r\n<body>\r\n    <div id=\"1\">fdsd张宁给你大师傅发大宁af</div>\r\n</body>\r\n</html>\r\n"
 
 /***/ })
-/******/ ]);
+
+/******/ });
