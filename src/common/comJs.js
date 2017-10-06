@@ -43,4 +43,26 @@ let $ = (context, fnode) => {
   }
 };
 
-export {c, $};
+class Storage {
+  constructor(name = '', content, key) {
+    this.name = name;
+    this.content = content;
+  }
+  get () {
+    let getContent = JSON.parse(sessionStorage.getItem(this.name));
+    return getContent;
+  }
+  set () {
+    let storeContent = this.get();
+    if (storeContent === null) {
+      storeContent = [];
+    };
+    storeContent.push(this.content);
+    sessionStorage.setItem(this.name, JSON.stringify(storeContent));
+  }
+  del () {
+    sessionStorage.removeItem(this.name);
+  }
+};
+
+export {c, $, Storage};

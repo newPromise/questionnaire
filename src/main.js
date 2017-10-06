@@ -1,7 +1,7 @@
 import './index.html';
 import '../src/common/comCss.css';
 import './index.css';
-import {header} from '../src/components/header.js';
+import {header} from '../src/components/header/header.js';
 import {$} from '../src/common/comJs.js';
 console.log('我是一段风流韵事');
 console.log('我是张宁宁放到');

@@ -2,9 +2,10 @@
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 .nairecontent {
-    width: 800px;
+    width: 1000px;
     background-color: #EFEFEF;
     margin: auto;
     margin-top: 100px;
@@ -12,7 +13,8 @@
     min-height: 500px;
 }
 .main{
-    width: 500px;
+    width: 800px;
+    padding: 30px;
     margin: 50px auto;
     background-color: white;
 }

@@ -1,4 +1,4 @@
-import {c} from '../common/comJs.js';
+import {c} from '../../common/comJs.js';
 
 let header = function () {
   let node = c('div');

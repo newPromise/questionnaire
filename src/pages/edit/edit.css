@@ -1,0 +1,115 @@
+.title{
+    text-align: center;
+}
+.title-input{
+    width: 100%;   
+    height: 60px;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+}
+.edit-content{
+    margin: 20px 0;
+    padding: 20px;
+    border: 2px solid gray;
+    border-left: 0;
+    border-right: 0;
+}
+.choice-types{
+    border: 2px solid gray;
+    margin: auto;
+}
+.types{
+    text-align: center;
+    padding: 0 20px;
+}
+.types span{
+    padding: 5px 10px;
+    background-color: #EEEEEE;
+    margin: 20px;
+    display: inline-block;
+}
+.add-types{
+    font-size: 25px;
+    padding: 20px;
+    text-align: center;
+    background-color: #EEEEEE;
+}
+
+.optMain{
+    position: relative;
+}
+.optMain input{
+    border: 0;
+}
+
+.optTitle input{
+    font-size: 20px;
+}
+.optOrder{
+    position: absolute;
+    top: 0;
+}
+.optContent{
+    text-align: left;
+    display: inline-block;
+    margin-left: 40px;
+}
+
+.optContent p{
+    display: block;
+    margin: 10px 0;
+}
+
+.optContent .optAdd, .optDel{
+    margin: 0 10px;
+}
+
+.optContent .optVal{
+    height: 30px;
+}
+.optContent .textInput{
+    width: 700px;
+    height: 200px;
+    overflow: hidden;
+    overflow-y: scroll;
+    border: 1px solid lightgray;
+    padding: 20px;
+}
+.optContent input{
+    margin-right: 10px;
+}
+.optAct{
+    padding: 10px;
+    text-align: right;
+}
+.optAct span{
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #EEEEEE;
+    margin: 10px;
+}
+.edit-act{
+    padding: 0 20px;
+    display: flex;
+}
+.date, .acts{
+    flex: 1;
+}
+.date-input{
+    margin-left: 10px;
+    height: 30px;
+}
+.date{
+    text-align: left;
+}
+.acts{
+    text-align: right;
+}
+.acts span{
+    display: inline-block;
+    margin-left: 20px;
+    padding: 5px;
+    border: 1px solid gray;
+}
