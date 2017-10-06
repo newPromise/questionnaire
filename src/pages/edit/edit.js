@@ -4,9 +4,8 @@ import '../../common/comCss.css';
 import {header} from '../../components/header/header.js';
 import {setDom} from '../../components/calender/calender.js';
 import {$, c} from '../../common/comJs.js';
-console.log('yessssssssss');
-$('.date')[0].appendChild(setDom());
-console.log('setDom', setDom());
+
+$('.date')[0].appendChild(setDom);
 let Edit = function (choiceTit = '', choiceType = '', choiceCon = '') {
   this.choiceTit = choiceTit;
   this.choiceType = choiceType;
