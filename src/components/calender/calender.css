@@ -2,11 +2,13 @@
     display: inline-block;
     width: 200px;
     position: relative;
+    z-index: 23;
 }
 .calenderInput {
     width: 100%;
 }
 .calenderCon {
+    border: 1px solid lightgray ;
     position: absolute;
     top: 35px;
     width: 100%;
@@ -33,4 +35,22 @@
     text-align: center;
 }
 .calenderWeek {
+    display: flex;
+}
+.calenderWeek span {
+    flex: 1;
+    text-align: center;
+}
+.row {
+    width: 100%;
+    display: flex;
+}
+.cell {
+    color: lightgray;
+    height: 25px;
+    flex: 1;
+    text-align: center;
+}
+.date {
+    color: black;
 }

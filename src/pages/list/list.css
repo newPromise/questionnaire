@@ -1,0 +1,41 @@
+
+.main {
+  width: 900px;
+}
+.naireItem {
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+}
+.checkLabel {
+  position: absolute;
+  height: 50px;
+  margin-left: 30px;
+}
+.list {
+    display: flex;
+    padding: 10px;
+    margin-left: 50px;
+}
+.list span {
+    flex: 1;
+    text-align: center;
+}
+.list div {
+    flex: 2;
+    text-align: center;
+}
+.actions {
+  display: flex;
+  padding: 5px 10px;
+}
+.actions span {
+  flex:１;
+  margin: 0 10px;
+  border:  1px solid black;
+}
+.label span:last-child {
+  flex: 2;
+}
+.label {
+    
+}

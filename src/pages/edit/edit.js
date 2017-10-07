@@ -1,7 +1,7 @@
 import './edit.html';
 import './edit.css';
 import '../../common/comCss.css';
-import {header} from '../../components/header/header.js';
+import {header, date} from '../../components/header/header.js';
 import {setDom} from '../../components/calender/calender.js';
 import {$, c} from '../../common/comJs.js';
 
@@ -114,15 +114,16 @@ Edit.prototype = {
   addOptItem: function (type, val, title) {
     let that = this;
     let opt = c('p');
+    opt.className = 'theOpt';
     let input = c('input');
     input.setAttribute('placeholder', that.labels[type] + '选项');
     input.setAttribute('type', 'text');
     if (type !== 'text') {
-      opt.innerHTML += '<input ' + 'name=' + title + ' type=' + type + '>';
+      opt.innerHTML += '<input  class="typeLabel" ' + 'name=' + title + ' type=' + type + '>';
       input.className = 'optVal';
     } else {
       input = c('textarea');
-      input.className = 'textInput';
+      input.className = 'textInput optVal';
     };
     opt.appendChild(input);
     let optAdd = c('span');
@@ -160,6 +161,7 @@ Edit.prototype = {
         break;
       case 'repeat':
         let clone = node.cloneNode(true);
+        that.cloneAction(clone);
         if (node.nextSibling) {
           $('.edit')[0].insertBefore(clone, node.nextSibling);
         } else {
@@ -172,11 +174,85 @@ Edit.prototype = {
     };
     that.toOrder();
   },
-  saveNaire: function () {
+  /**{titie, date, status, }
+   * [saveNaire 保存问卷的一切内容]
+   * @return {[type]} [description]
+   */
+  saveNaire: function (status) {
+    console.log('选择的日期', date);
+    let naireTitle = $('.title-input')[0].value;
+    // if (!naireTitle) {
+    //   alert('请输入问卷标题');
+    //   return;
+    // }
+    console.log('这是容器', $('.option'));
+    let naire = {
+      title: naireTitle,
+      status: status,
+      date: '',
+      content: []
+    };
+    let options = $('.option');
+    let optArr = [].slice.call(options);
+    optArr.map((item) => {
+      let optionTitle = item.getElementsByClassName('optTitle')[0].getElementsByTagName('input')[0].value;
+      let optionType = '';
+      let typeLabel = item.getElementsByClassName('typeLabel')[0];
+      if (typeLabel) {
+        optionType = typeLabel.getAttribute('type');
+      } else {
+        optionType = 'textarea';
+      }
+      let optionObj = {
+        optionTitle: optionTitle,
+        optionType: optionType,
+        optionContent: []
+      };
+      let optVals = item.getElementsByClassName('optVal');
+      optVals = [].slice.call(optVals);
+      optVals.map((opt) => {
+        let obj = {};
+        obj.content = opt.value;
+        obj.choiceData = 0;
+        optionObj.optionContent.push(obj);
+      });
+      naire.content.push(optionObj);
+    });
+    console.log('naire', naire);
+    console.log('naireTitle', naireTitle);
+  },
+  /**
+   * [cloneAction 对于节点动作的复制，谈不上，只是重写了一遍]
+   * @param  {[type]} cloneNode [要进行复制的节点]
+   * @return {[type]}           [description]
+   */
+  cloneAction: function (cloneNode) {
+    let that = this;
+    let optAdd = cloneNode.getElementsByClassName('optAdd');
+    let optDel = cloneNode.getElementsByClassName('optDel');
+    let theOpt = cloneNode.getElementsByClassName('theOpt');
+    let typeLabel = cloneNode.getElementsByClassName('typeLabel');
+    for (let i = 0; i < theOpt.length; i++) {
+      optAdd[i].onclick = function () {
+        theOpt[i].parentNode.appendChild(that.addOptItem(typeLabel[i].getAttribute('type')));
+      };
+      optDel[i].onclick = function () {
+        theOpt[i].parentNode.removeChild(theOpt[i]);
+      };
+    };
+    let acts = ['up', 'down', 'repeat', 'delete'];
+    acts.map((item) => {
+      cloneNode.getElementsByClassName(item)[0].onclick = function () {
+        that.optAction(item, cloneNode);
+      }
+    });
   }
 };
 
 let edit = new Edit();
 edit.init();
 // 使用对象的形式进行存储数据-0
+$('.save')[0].onclick = function () {
+  edit.saveNaire();
+};
 console.log(setDom());
