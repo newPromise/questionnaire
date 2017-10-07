@@ -12,6 +12,9 @@
     overflow: hidden;
     min-height: 1000px;
 }
+body {
+    border: 1px solid white;
+}
 .main{
     width: 800px;
     padding: 30px;

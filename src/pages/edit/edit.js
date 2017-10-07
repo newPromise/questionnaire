@@ -1,9 +1,9 @@
 import './edit.html';
 import './edit.css';
 import '../../common/comCss.css';
-import {header, date} from '../../components/header/header.js';
-import {setDom} from '../../components/calender/calender.js';
-import {$, c} from '../../common/comJs.js';
+import {header} from '../../components/header/header.js';
+import {setDom, date} from '../../components/calender/calender.js';
+import {$, c, Storage} from '../../common/comJs.js';
 
 $('.date')[0].appendChild(setDom);
 let Edit = function (choiceTit = '', choiceType = '', choiceCon = '') {
@@ -43,7 +43,6 @@ Edit.prototype = {
     let types = ['radio', 'checkbox', 'text'];
     types.map((item, index) => {
       $('.' + item)[0].onclick = function () {
-        console.log('sooooooooooooooood');
         $('.edit')[0].appendChild(that.addOption(item));
       }
     });
@@ -178,7 +177,7 @@ Edit.prototype = {
    * [saveNaire 保存问卷的一切内容]
    * @return {[type]} [description]
    */
-  saveNaire: function (status) {
+  saveNaire: function (statu) {
     console.log('选择的日期', date);
     let naireTitle = $('.title-input')[0].value;
     // if (!naireTitle) {
@@ -188,7 +187,7 @@ Edit.prototype = {
     console.log('这是容器', $('.option'));
     let naire = {
       title: naireTitle,
-      status: status,
+      statu: statu,
       date: '',
       content: []
     };
@@ -218,8 +217,7 @@ Edit.prototype = {
       });
       naire.content.push(optionObj);
     });
-    console.log('naire', naire);
-    console.log('naireTitle', naireTitle);
+    return naire;
   },
   /**
    * [cloneAction 对于节点动作的复制，谈不上，只是重写了一遍]
@@ -251,8 +249,10 @@ Edit.prototype = {
 
 let edit = new Edit();
 edit.init();
-// 使用对象的形式进行存储数据-0
+// 使用对象的形式进行存储数据-
 $('.save')[0].onclick = function () {
-  edit.saveNaire();
+  let storage = new Storage('naire', edit.saveNaire('未发布'));
+  storage.set();
+  window.location.href = 'list.html';
 };
 console.log(setDom());

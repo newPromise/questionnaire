@@ -60,9 +60,26 @@ class Storage {
     storeContent.push(this.content);
     sessionStorage.setItem(this.name, JSON.stringify(storeContent));
   }
-  del () {
-    sessionStorage.removeItem(this.name);
+  del (index) {
+    console.log('index', index);
+    let store = this.get();
+    console.log('storessss', index);
+    store.splice(index, 1);
+    console.log('stFDASore', store);
+    sessionStorage.setItem(this.name, JSON.stringify(store));
   }
 };
 
-export {c, $, Storage};
+class Client {
+  constructor() {
+    this.doc = document.documentElement || document.body;
+  }
+  clientWidth () {
+    return this.doc.clientWidth + 'px';
+  }
+  clientHeight () {
+    return this.doc.clientHeight + 'px';
+  }
+};
+
+export {c, $, Storage, Client};
