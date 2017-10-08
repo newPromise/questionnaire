@@ -1,5 +1,5 @@
 import './calender.css';
-import {c} from '../../common/comJs.js';
+import {c, $} from '../../common/comJs.js';
 
 function Calender() {
   this.date = new Date();
@@ -69,6 +69,9 @@ Calender.prototype = {
       calenderBody.appendChild(that.toNext(false));
       showMon.innerText = that.month + 1;
       showYear.innerText = that.year;
+    };
+    clInput.onclick = function () {
+      clCon.style.display = 'block';
     };
     clCon.appendChild(calenderTitle);
     clCon.appendChild(calenderBody);
@@ -150,6 +153,8 @@ Calender.prototype = {
         cellArr[i].className = 'cell date';
         cellArr[i].onclick = function () {
           that.day = i;
+          console.log('被选中的日历', $('.calenderCon')[0]);
+          $('.calenderCon')[0].style.display = 'none';
         };
       } else {
         cellArr[i].innerText = fDay - allDays;

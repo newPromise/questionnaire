@@ -13,12 +13,28 @@ List.prototype = {
   constructor: List,
   init: function () {
     let that = this;
+    $('.main')[0].innerHTML = '';
     that.addList();
     that.getStorage();
-    $('.nairecontent')[0].insertBefore(header(), $('.nairecontent')[0].childNodes[0]);
+    $('.main')[0].appendChild(that.addNew());
+    if (!$('.header')[0]) {
+      $('.nairecontent')[0].insertBefore(header(), $('.nairecontent')[0].childNodes[0]);
+    }
+  },
+  addNew: function () {
+    let addNew = c('div');
+    addNew.className = 'addNewWrap';
+    let addNewBtn = c('span');
+    addNewBtn.innerText = '新建问卷';
+    addNewBtn.onclick = function () {
+      window.location.href = 'edit.html';
+    };
+    addNewBtn.className = 'addNew';
+    addNew.appendChild(addNewBtn);
+    return addNew;
   },
   addList: function () {
-    let that = this;
+    // let that = this;
     let labels = c('div');
     labels.className = 'list label';
     let lbs = ['标题', '时间', '状态', '操作'];
@@ -29,11 +45,10 @@ List.prototype = {
       labels.appendChild(lb);
     });
     $('.main')[0].appendChild(labels);
-    $('.main')[0].appendChild(that.getList());
+    // $('.main')[0].appendChild(that.getList());
   },
   getStorage: function () {
     let that = this;
-    $('.main')[0].innerHTML = '';
     let store = storeNaire.get();
     if (store.length === 0) {
       window.location.href = 'index.html';
@@ -77,19 +92,19 @@ List.prototype = {
       act.onclick = function () {
         switch (key) {
           case 'edit':
+            storeNaire.setAct(index, 'isEdit');
             window.location.href = 'edit.html';
             console.log('edit');
             break;
           case 'view':
+            storeNaire.setAct(index, 'isView');
+            window.location.href = 'fill.html';
             console.log(indicator.ensure);
             console.log('view');
             break;
           case 'delete':
-            console.log('删除前');
             indicator.open();
-            console.log('我是一个对象');
             that.delIndex = index;
-            console.log('delekk');
             break;
         }
       };
@@ -115,7 +130,7 @@ Object.defineProperty(indicator, 'ensure', {
       console.log('我被执行了删除操作');
       console.log('lst.delIndex', list.delIndex);
       storeNaire.del(list.delIndex);
-      list.getStorage();
+      list.init();
     }
   }
 });

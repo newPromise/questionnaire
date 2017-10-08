@@ -20,6 +20,9 @@ class Indicator {
     let close = c('span');
     close.className = 'close';
     close.innerText = '关闭';
+    close.onclick = () => {
+      this.close();
+    };
     alertHead.appendChild(close);
     let alertBody = c('div');
     alertBody.className = 'alertBody';

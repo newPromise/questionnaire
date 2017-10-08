@@ -50,7 +50,7 @@ class Storage {
   }
   get () {
     let getContent = JSON.parse(sessionStorage.getItem(this.name));
-    return getContent;
+    return getContent || [];
   }
   set () {
     let storeContent = this.get();
@@ -66,6 +66,39 @@ class Storage {
     console.log('storessss', index);
     store.splice(index, 1);
     console.log('stFDASore', store);
+    sessionStorage.setItem(this.name, JSON.stringify(store));
+  }
+  /**
+   * [getActItem 获得存在某种动作的问卷对象]
+   * @param  {[String]} act [问卷对象的动作 isEdit: 是否编辑 isView: 是否查看]
+   * @return {[obj]}     [特定动作为true的对象]
+   */
+  getActItem (act) {
+    let actItem = '';
+    let store = this.get();
+    if (store) {
+      console.log('sd', act, store);
+      store.map((item, index) => {
+        if (item[act] === true) {
+          console.log('item', item);
+          actItem = item;
+        }
+      });
+    }
+    return actItem;
+  }
+  /**
+   * [setAct 改变特定的动作状态]
+   * @param {[Number]} index [问卷对象在存放中的索引]
+   * @param {[act]} act   [需要设定为 true 的动作, 表示需要进行那项动作]
+   */
+  setAct (index, act) {
+    let store = this.get();
+    store.map((item) => {
+      item.isEdit = false;
+      item.isView = false;
+    });
+    store[index][act] = true;
     sessionStorage.setItem(this.name, JSON.stringify(store));
   }
 };

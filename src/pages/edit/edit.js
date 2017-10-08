@@ -2,9 +2,17 @@ import './edit.html';
 import './edit.css';
 import '../../common/comCss.css';
 import {header} from '../../components/header/header.js';
+import {Indicator} from '../../components/indicator/indicator.js';
 import {setDom, date} from '../../components/calender/calender.js';
 import {$, c, Storage} from '../../common/comJs.js';
-
+let naire = new Storage('naire');
+let editNaire = naire.getActItem('isEdit');
+let editIndex;
+console.log('naire.get', naire.get());
+editIndex = naire.get().findIndex(function (val, index, arr) {
+  console.log('val', val);
+  return val.isEdit === true;
+});
 $('.date')[0].appendChild(setDom);
 let Edit = function (choiceTit = '', choiceType = '', choiceCon = '') {
   this.choiceTit = choiceTit;
@@ -19,10 +27,23 @@ let Edit = function (choiceTit = '', choiceType = '', choiceCon = '') {
 Edit.prototype = {
   init: function () {
     let that = this;
-    console.log('ds', that);
     that.showTypes();
     that.addTypes();
+    that.addStoreData();
     $('.nairecontent')[0].insertBefore(header(), $('.nairecontent')[0].childNodes[0]);
+  },
+  /**
+   * [addStoreData 用于加载问卷列表点击编辑选项进入的编辑已存在的问卷]
+   */
+  addStoreData: function () {
+    let that = this;
+    $('.title-input')[0].value = editNaire.title || '';
+    $('.calenderInput')[0].value = editNaire.date || '';
+    if (editNaire) {
+      editNaire.content.map((item, index) => {
+        $('.edit')[0].appendChild(that.addOption(item.optionType, item.optionTitle, item.optionContent));
+      });
+    }
   },
   /**
    * [showTypes 显示选择项]
@@ -52,7 +73,7 @@ Edit.prototype = {
    * @param {[String]} type [选项类型]
    * @return {[Object]} choiceItem [节点对象]
    */
-  addOption: function (type) {
+  addOption: function (type = '', optTit = '', optCon = '') {
     let that = this;
     let choiceItem = c('div');
     choiceItem.className = 'option';
@@ -67,16 +88,14 @@ Edit.prototype = {
     qsCon.className = 'optContent';
     let title = c('span');
     title.className = 'optTitle';
-    title.innerHTML += '<input type="text" placeholder=' + that.labels[type] + '标题' + ' class="choiceTit">';
+    title.innerHTML += '<input type="text" + value="' + optTit + '"+ placeholder=' + that.labels[type] + '标题' + ' class="choiceTit">';
     qsCon.appendChild(title);
-    $('.choiceTit').value = (that.choiceTit ? that.choiceTit : that.labels[type])
+    $('.choiceTit').value = (optTit || that.labels[type]);
     qsCon.appendChild(that.addOptItem(type));
-    for (let con of that.choiceCon) {
-      let opt = c('span');
-      opt.innerHTML += '<input type="radio">';
-      opt.innerHTML += '<input type="text" class="optVal">';
-      $('.optVal')[0].value = con.value;
-      qsCon.appendChild(opt);
+    if (optCon) {
+      for (let con of optCon) {
+        qsCon.appendChild(that.addOptItem(type, con.content, optTit));
+      };
     };
     let acts = {
       'up': '上移',
@@ -110,15 +129,17 @@ Edit.prototype = {
    * @param {[type]} type [添加的类型， 单选， 多选， 文本框]
    * @param {[type]} val  [选项呢的值]
    */
-  addOptItem: function (type, val, title) {
+  addOptItem: function (type = '', val = '', title = '') {
     let that = this;
     let opt = c('p');
     opt.className = 'theOpt';
     let input = c('input');
     input.setAttribute('placeholder', that.labels[type] + '选项');
     input.setAttribute('type', 'text');
+    input.setAttribute('value', val);
     if (type !== 'text') {
-      opt.innerHTML += '<input  class="typeLabel" ' + 'name=' + title + ' type=' + type + '>';
+      console.log('添加的选项类型', type);
+      opt.innerHTML += '<input  class="typeLabel" ' + 'name= "' + title + '" type=' + type + '>';
       input.className = 'optVal';
     } else {
       input = c('textarea');
@@ -132,6 +153,7 @@ Edit.prototype = {
     optDel.className = 'optDel';
     optDel.innerText = '选项减';
     optAdd.onclick = function () {
+      console.log('选项加', type);
       opt.parentNode.appendChild(that.addOptItem(type));
     };
     optDel.onclick = function () {
@@ -184,11 +206,12 @@ Edit.prototype = {
     //   alert('请输入问卷标题');
     //   return;
     // }
-    console.log('这是容器', $('.option'));
     let naire = {
       title: naireTitle,
       statu: statu,
-      date: '',
+      isEdit: false,
+      isView: false,
+      date: $('.calenderInput')[0].value,
       content: []
     };
     let options = $('.option');
@@ -249,10 +272,42 @@ Edit.prototype = {
 
 let edit = new Edit();
 edit.init();
+// let saveFirst = new Indicator('请先保存问卷!');
+let indicator = new Indicator('是否需要保存该问卷');
 // 使用对象的形式进行存储数据-
 $('.save')[0].onclick = function () {
-  let storage = new Storage('naire', edit.saveNaire('未发布'));
-  storage.set();
-  window.location.href = 'list.html';
+  // 这里用来判断信息
+  console.log('老乡，开蒙');
+  indicator.open();
 };
-console.log(setDom());
+
+$('.public')[0].onclick = function () {
+  let pub = new Storage('naire', edit.saveNaire('已发布'));
+  pub.set();
+  window.location.href = 'list.html';
+  /**
+  if (typeof edit.saveNaire().statu === 'undefined') {
+    saveFirst.open();
+  };
+  **/
+}
+
+Object.defineProperty(indicator, 'ensure', {
+  get () {
+  },
+  set (newVal) {
+    if (newVal) {
+      console.log('editIndex', editIndex);
+      if (editIndex === -1) {
+        let store = new Storage('naire', edit.saveNaire('未发布'));
+        store.set();
+      } else {
+        let allData = new Storage('naire');
+        let datas = allData.get();
+        datas.splice(editIndex, 1, edit.saveNaire('未发布'));
+        sessionStorage.setItem('naire', JSON.stringify(datas));
+      };
+      window.location.href = 'list.html';
+    }
+  }
+});

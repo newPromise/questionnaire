@@ -11,7 +11,8 @@ module.exports = {
     entry: {
         main: "./src/main.js",
         list: "./src/pages/list/list.js",
-        edit: "./src/pages/edit/edit.js"
+        edit: "./src/pages/edit/edit.js",
+        fill: "./src/pages/fill/fill.js"
         // pagetwo: "./src/pages/pagetwo/pagetwo.js",//已多次提及的唯一入口文件
     },
     output: {
@@ -59,6 +60,11 @@ module.exports = {
           filename: 'edit.html',
           template: './src/pages/edit/edit.html',
           chunks: ['edit']
+        }),
+        new HtmlWebpackPlugin({
+          filename: 'fill.html',
+          template: './src/pages/fill/fill.html',
+          chunks: ['fill']
         }),
         new OpenBrowserPlugin({ url: 'http://localhost:8080' })
     ]

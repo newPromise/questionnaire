@@ -8,6 +8,7 @@
     width: 100%;
 }
 .calenderCon {
+    display: none;
     border: 1px solid lightgray ;
     position: absolute;
     top: 35px;
