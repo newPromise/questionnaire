@@ -52,6 +52,14 @@ class Storage {
     let getContent = JSON.parse(sessionStorage.getItem(this.name));
     return getContent || [];
   }
+  /**
+   * [reset  reset the sessionStorage]
+   * @return {[type]} [new sessionStorage]
+   */
+  reset () {
+    let resetStore = sessionStorage.setItem(this.name, JSON.stringify(this.content));
+    return resetStore;
+  }
   set () {
     let storeContent = this.get();
     if (storeContent === null) {

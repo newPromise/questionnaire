@@ -282,8 +282,9 @@ $('.save')[0].onclick = function () {
 };
 
 $('.public')[0].onclick = function () {
-  let pub = new Storage('naire', edit.saveNaire('已发布'));
-  pub.set();
+  let allStore = naire.get();
+  allStore.splice(editIndex, 1, edit.saveNaire('已发布'));
+  sessionStorage.setItem('naire', JSON.stringify(allStore));
   window.location.href = 'list.html';
   /**
   if (typeof edit.saveNaire().statu === 'undefined') {

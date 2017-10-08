@@ -71,7 +71,7 @@ module.exports = {
           filename: 'data.html',
           template: './src/pages/data/data.html',
           chunks: ['data']
-        })
+        }),
         new OpenBrowserPlugin({ url: 'http://localhost:8080' })
     ]
 };

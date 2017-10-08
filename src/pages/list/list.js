@@ -97,10 +97,13 @@ List.prototype = {
             console.log('edit');
             break;
           case 'view':
-            storeNaire.setAct(index, 'isView');
-            window.location.href = 'fill.html';
-            console.log(indicator.ensure);
-            console.log('view');
+            if (status === '已发布') {
+              storeNaire.setAct(index, 'isData');
+              window.location.href = 'data.html';
+            } else if (status === '未发布') {
+              storeNaire.setAct(index, 'isView');
+              window.location.href = 'fill.html';
+            };
             break;
           case 'delete':
             indicator.open();
