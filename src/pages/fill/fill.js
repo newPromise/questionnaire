@@ -120,9 +120,8 @@ FillNaire.prototype = {
     console.log(viewIndex);
     storeData.splice(0, 1, that.naire);
     console.log('storeData', storeData);
-    let toFresh = new Storage('naire', storeData);
-    toFresh.set();
-    console.log('naire', toFresh.get());
+    sessionStorage.setItem('naire', JSON.stringify(storeData));
+    console.log(JSON.parse(sessionStorage.getItem('naire')));
   },
   /**
    * [fillOver 点击确定按钮进行逻辑判断]

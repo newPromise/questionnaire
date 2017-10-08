@@ -61,11 +61,8 @@ class Storage {
     sessionStorage.setItem(this.name, JSON.stringify(storeContent));
   }
   del (index) {
-    console.log('index', index);
     let store = this.get();
-    console.log('storessss', index);
     store.splice(index, 1);
-    console.log('stFDASore', store);
     sessionStorage.setItem(this.name, JSON.stringify(store));
   }
   /**
@@ -77,10 +74,8 @@ class Storage {
     let actItem = '';
     let store = this.get();
     if (store) {
-      console.log('sd', act, store);
       store.map((item, index) => {
         if (item[act] === true) {
-          console.log('item', item);
           actItem = item;
         }
       });
@@ -97,6 +92,7 @@ class Storage {
     store.map((item) => {
       item.isEdit = false;
       item.isView = false;
+      item.isData = false;
     });
     store[index][act] = true;
     sessionStorage.setItem(this.name, JSON.stringify(store));
