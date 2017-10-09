@@ -55,21 +55,25 @@ FillNaire.prototype = {
     opt.className = 'theOpt';
     let label = c('label');
     label.innerText = val;
-    let typeLabel = c('input');
-    if (type !== 'text') {
-      typeLabel.className = 'typeLabel';
-      typeLabel.setAttribute('name', $('.fillContent')[0].childNodes.length);
-      typeLabel.setAttribute('type', type);
-      typeLabel.setAttribute('value', val);
-      typeLabel.setAttribute('id', $('.fillContent')[0].childNodes.length + `${index}`);
-      optSpan.appendChild(typeLabel);
-      typeLabel.className = 'optVal';
+    let cInput = c('input');
+    if (type !== 'textarea') {
+      cInput.className = 'cInput';
+      cInput.setAttribute('name', $('.fillContent')[0].childNodes.length);
+      cInput.setAttribute('type', type);
+      cInput.setAttribute('value', val);
+      cInput.setAttribute('id', $('.fillContent')[0].childNodes.length + `${index}`);
+      cInput.className = 'optVal';
     } else {
-      let input = c('textarea');
-      input.className = 'textInput optVal';
+      cInput = c('textarea');
+      console.log('textarea', val);
+      cInput.setAttribute('placeholder', val);
+      cInput.className = 'textInput optVal';
     };
-    label.setAttribute('for', $('.fillContent')[0].childNodes.length + `${index}`);
-    optSpan.appendChild(label);
+    optSpan.appendChild(cInput);
+    if (type !== 'textarea') {
+      label.setAttribute('for', $('.fillContent')[0].childNodes.length + `${index}`);
+      optSpan.appendChild(label);
+    };
     opt.appendChild(optSpan);
     return opt;
   },
@@ -85,8 +89,10 @@ FillNaire.prototype = {
     let optItemIndex = [];
     [...allOpts].map((option, index) => {
       let optItems = option.getElementsByClassName('optVal');
+      // let textareaInput = option.getElementsByClassName('textInput');
       [...optItems].map((item, itemIndex) => {
-        if (item.checked) {
+        console.log('item', item.value);
+        if (item.checked || item.value) {
           optItemIndex.push(itemIndex);
           // isFillAll = true;
         } else {
@@ -123,12 +129,16 @@ FillNaire.prototype = {
         flag = false;
       }
     };
+    if (that.naire.statu === '未发布') {
+      alert('问卷尚未发布，填写数据无效');
+      return;
+    }
     if (!flag) {
       alert('存在未选中的选项');
       return;
     };
-    window.location.href = 'list.html';
     that.setChoiceData();
+    window.location.href = 'list.html';
   }
 };
 let store = new Storage('naire');

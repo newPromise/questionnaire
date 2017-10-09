@@ -37,12 +37,14 @@
   height: 30px;
 }
 .naireTitle {
+  font-size: 30px;
 }
 
 .option {
   padding: 10px;
   border: 1px solid lightgray;
   display: flex;
+  margin: 10px 0;
 }
 .option div {
   flex: 1;

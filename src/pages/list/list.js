@@ -8,7 +8,9 @@ let storeNaire = new Storage('naire');
 let List = function () {
   this.delIndex = '';
 };
-
+storeNaire.get().map((item, index) => {
+  storeNaire.setAct(index);
+});
 List.prototype = {
   constructor: List,
   init: function () {
@@ -37,7 +39,7 @@ List.prototype = {
     // let that = this;
     let labels = c('div');
     labels.className = 'list label';
-    let lbs = ['标题', '时间', '状态', '操作'];
+    let lbs = ['标题', '截止时间', '状态', '操作'];
     lbs.map((item) => {
       let lb = c('span');
       lb.className = 'lb';
@@ -85,7 +87,8 @@ List.prototype = {
       'delete': '删除'
     };
     if (status === '已发布') {
-      acts.data = '数据'
+      acts.data = '数据';
+      acts.view = '填写';
     };
     for (let key in acts) {
       let act = c('span');
@@ -101,8 +104,8 @@ List.prototype = {
             break;
           case 'view':
             if (status === '已发布') {
-              storeNaire.setAct(index, 'isData');
-              window.location.href = 'data.html';
+              storeNaire.setAct(index, 'isView');
+              window.location.href = 'fill.html';
             } else if (status === '未发布') {
               storeNaire.setAct(index, 'isView');
               window.location.href = 'fill.html';

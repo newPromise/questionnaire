@@ -1,5 +1,6 @@
 import './calender.css';
 import {c, $} from '../../common/comJs.js';
+console.log('日期', new Date() < new Date(2017, 9, 10));
 
 function Calender() {
   this.date = new Date();
@@ -17,12 +18,18 @@ Calender.prototype = {
     node.className = 'calender';
     let clInput = c('input');
     clInput.className = 'calenderInput';
+    clInput.setAttribute('placeholder', '请输入时间');
     clInput.setAttribute('type', 'text');
     clInput.setAttribute('readonly', 'readonly');
     Object.defineProperty(this, 'day', {
       set(newVal) {
-        clInput.value = that.year + '-' + Number(that.month + 1) + '-' + newVal;
-        this.time = clInput.value;
+        if (new Date() > new Date(that.year, that.month, newVal)) {
+          this.time = '';
+          alert('截止日期不能在今天之前');
+        } else {
+          clInput.value = that.year + '-' + Number(that.month + 1) + '-' + newVal;
+          this.time = clInput.value;
+        }
       },
       get () {
       }
@@ -171,5 +178,4 @@ let calender = new Calender();
 let setDom = calender.setDom();
 let date = calender.time;
 calender.getDays();
-console.log('日历中的时间', date);
 export {setDom, date};

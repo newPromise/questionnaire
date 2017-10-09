@@ -1,6 +1,6 @@
 import './edit.html';
-import './edit.css';
 import '../../common/comCss.css';
+import './edit.css';
 import {header} from '../../components/header/header.js';
 import {Indicator} from '../../components/indicator/indicator.js';
 import {setDom, date} from '../../components/calender/calender.js';
@@ -9,7 +9,6 @@ let naire = new Storage('naire');
 let editNaire = naire.getActItem('isEdit');
 let editIndex;
 editIndex = naire.get().findIndex(function (val, index, arr) {
-  console.log('val', val);
   return val.isEdit === true;
 });
 $('.date')[0].appendChild(setDom);
@@ -20,7 +19,7 @@ let Edit = function (choiceTit = '', choiceType = '', choiceCon = '') {
   this.labels = {
     'radio': '单选',
     'checkbox': '多选',
-    'text': '文本框'
+    'textarea': '文本框'
   };
 };
 Edit.prototype = {
@@ -60,7 +59,7 @@ Edit.prototype = {
    */
   addTypes: function () {
     let that = this;
-    let types = ['radio', 'checkbox', 'text'];
+    let types = ['radio', 'checkbox', 'textarea'];
     types.map((item, index) => {
       $('.' + item)[0].onclick = function () {
         $('.edit')[0].appendChild(that.addOption(item));
@@ -90,7 +89,10 @@ Edit.prototype = {
     title.innerHTML += '<input type="text" + value="' + optTit + '"+ placeholder=' + that.labels[type] + '标题' + ' class="choiceTit">';
     qsCon.appendChild(title);
     $('.choiceTit').value = (optTit || that.labels[type]);
-    qsCon.appendChild(that.addOptItem(type));
+    if (!optCon) {
+      qsCon.appendChild(that.addOptItem(type));
+    };
+    // qsCon.appendChild(that.addOptItem(type));
     if (optCon) {
       for (let con of optCon) {
         qsCon.appendChild(that.addOptItem(type, con.content, optTit));
@@ -133,15 +135,20 @@ Edit.prototype = {
     let opt = c('p');
     opt.className = 'theOpt';
     let input = c('input');
-    input.setAttribute('placeholder', that.labels[type] + '选项');
-    input.setAttribute('type', 'text');
-    input.setAttribute('value', val);
-    if (type !== 'text') {
-      console.log('添加的选项类型', type);
+    if (type !== 'textarea') {
+      input.setAttribute('placeholder', that.labels[type] + '选项');
+      input.setAttribute('type', 'text');
+      input.setAttribute('value', val);
       opt.innerHTML += '<input  class="typeLabel" ' + 'name= "' + title + '" type=' + type + '>';
       input.className = 'optVal';
     } else {
       input = c('textarea');
+      input.setAttribute('type', 'textarea');
+      if (val === '' && editNaire) {
+        input.setAttribute('placeholder', '问卷填写的提示文字');
+      } else {
+        input.setAttribute('placeholder', val);
+      };
       input.className = 'textInput optVal';
     };
     opt.appendChild(input);
@@ -223,13 +230,16 @@ Edit.prototype = {
         optionType = typeLabel.getAttribute('type');
       } else {
         optionType = 'textarea';
-      }
+      };
       let optionObj = {
         optionTitle: optionTitle,
         optionType: optionType,
         optionContent: []
       };
       let optVals = item.getElementsByClassName('optVal');
+      if (item.getElementsByClassName('textInput')) {
+        // optVals = item.getElementsByClassName('textInput');
+      };
       optVals = [].slice.call(optVals);
       optVals.map((opt) => {
         let obj = {};
@@ -240,6 +250,19 @@ Edit.prototype = {
       naire.content.push(optionObj);
     });
     return naire;
+  },
+  jugeMust: function () {
+    console.log('must juge');
+    let flag = true;
+    if ($('.title-input')[0].value === '') {
+      alert('问卷标题必填');
+      flag = false;
+    };
+    if ($('.calenderInput')[0].value === '') {
+      alert('截止时间必填');
+      flag = false;
+    };
+    return flag;
   },
   /**
    * [cloneAction 对于节点动作的复制，谈不上，只是重写了一遍]
@@ -276,15 +299,17 @@ let indicator = new Indicator('是否需要保存该问卷');
 // 使用对象的形式进行存储数据-
 $('.save')[0].onclick = function () {
   // 这里用来判断信息
-  console.log('老乡，开蒙');
   indicator.open();
 };
 
 $('.public')[0].onclick = function () {
-  let allStore = naire.get();
-  allStore.splice(editIndex, 1, edit.saveNaire('已发布'));
-  sessionStorage.setItem('naire', JSON.stringify(allStore));
-  window.location.href = 'list.html';
+  if (edit.jugeMust()) {
+    console.log('jusge');
+    let allStore = naire.get();
+    allStore.splice(editIndex, 1, edit.saveNaire('已发布'));
+    sessionStorage.setItem('naire', JSON.stringify(allStore));
+    window.location.href = 'list.html';
+  }
   /**
   if (typeof edit.saveNaire().statu === 'undefined') {
     saveFirst.open();
