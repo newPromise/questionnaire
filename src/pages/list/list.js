@@ -84,6 +84,9 @@ List.prototype = {
       'edit': '编辑',
       'delete': '删除'
     };
+    if (status === '已发布') {
+      acts.data = '数据'
+    };
     for (let key in acts) {
       let act = c('span');
       act.className = 'key';
@@ -109,6 +112,9 @@ List.prototype = {
             indicator.open();
             that.delIndex = index;
             break;
+          case 'data':
+            storeNaire.setAct(index, 'isData');
+            window.location.href = 'data.html';
         }
       };
     };
@@ -130,8 +136,6 @@ Object.defineProperty(indicator, 'ensure', {
   },
   set (newVal) {
     if (newVal) {
-      console.log('我被执行了删除操作');
-      console.log('lst.delIndex', list.delIndex);
       storeNaire.del(list.delIndex);
       list.init();
     }

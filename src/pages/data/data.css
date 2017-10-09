@@ -1,0 +1,66 @@
+.dataHeader {
+  width: 100%;
+}
+.dataContent{
+    margin: 20px 0;
+    padding: 20px;
+    border: 2px solid gray;
+    border-left: 0;
+    border-right: 0;
+}
+.title, .alert {
+  width: 100%;
+}
+.alert {
+  text-align: center;
+}
+.title {
+  position: relative;
+  text-align: center;
+}
+.title .back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: auto;
+}
+.dataFooter {
+  margin: 10px 0;
+  text-align: center;
+}
+.dataFooter span {
+  display: inline-block;
+  width: 50px;
+  line-height: 30px;
+  color: white;
+  background-color: #EE7419;
+  height: 30px;
+}
+.naireTitle {
+}
+
+.option {
+  padding: 10px;
+  border: 1px solid lightgray;
+  display: flex;
+}
+.option div {
+  flex: 1;
+}
+.optItem {
+  flex: 2;
+}
+
+.optItem p {
+  position: relative;
+}
+.optItem .optTitle {
+  position: absolute;
+  margin: auto;
+  left: 50px;
+}
+.optItem .item {
+  display: inline-block;
+  padding: 10px 0;
+  margin-left: 50px;
+}

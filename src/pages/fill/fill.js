@@ -71,14 +71,6 @@ FillNaire.prototype = {
     label.setAttribute('for', $('.fillContent')[0].childNodes.length + `${index}`);
     optSpan.appendChild(label);
     opt.appendChild(optSpan);
-    optSpan.addEventListener('click', function () {
-      if (typeLabel.checked) {
-        // choiceData ++;
-      };
-      console.log(typeLabel.checked);
-      console.log(this);
-      console.log('yes');
-    }, false);
     return opt;
   },
   /**
@@ -114,14 +106,9 @@ FillNaire.prototype = {
         that.naire.content[opt].optionContent[item].choiceData ++;
       });
     };
-    console.log('之后的naire', that.naire);
-    console.log('store.get', store.get());
     let storeData = store.get();
-    console.log(viewIndex);
-    storeData.splice(0, 1, that.naire);
-    console.log('storeData', storeData);
+    storeData.splice(viewIndex, 1, that.naire);
     sessionStorage.setItem('naire', JSON.stringify(storeData));
-    console.log(JSON.parse(sessionStorage.getItem('naire')));
   },
   /**
    * [fillOver 点击确定按钮进行逻辑判断]
@@ -137,9 +124,10 @@ FillNaire.prototype = {
       }
     };
     if (!flag) {
-      alert('有没有选中的项');
+      alert('存在未选中的选项');
       return;
     };
+    window.location.href = 'list.html';
     that.setChoiceData();
   }
 };
