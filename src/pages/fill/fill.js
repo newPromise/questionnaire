@@ -13,7 +13,6 @@ FillNaire.prototype = {
   constructor: FillNaire,
   init: function () {
     let that = this;
-    console.log('得到的naire', that.naire);
     $('.tipMsg')[0].innerText = (that.naire.statu === '已发布' ? '问卷已发布' : '问卷尚未发布，填写数据无效');
     $('.title-input')[0].value = that.naire.title || '';
     that.naire.content.map((item, index) => {
@@ -39,7 +38,6 @@ FillNaire.prototype = {
     title.innerHTML += '<input type="text" value = ' + item.optionTitle + '  class="choiceTit">';
     qsCon.appendChild(title);
     item.optionContent.map((opts, index) => {
-      console.log('opts', opts);
       qsCon.appendChild(that.addOptItem(item.optionTitle, item.optionType, opts.content, index, opts.choiceData));
     });
     // sd
@@ -65,7 +63,6 @@ FillNaire.prototype = {
       cInput.className = 'optVal';
     } else {
       cInput = c('textarea');
-      console.log('textarea', val);
       cInput.setAttribute('placeholder', val);
       cInput.className = 'textInput optVal';
     };
@@ -91,8 +88,7 @@ FillNaire.prototype = {
       let optItems = option.getElementsByClassName('optVal');
       // let textareaInput = option.getElementsByClassName('textInput');
       [...optItems].map((item, itemIndex) => {
-        console.log('item', item.value);
-        if (item.checked || item.value) {
+        if (item.checked) {
           optItemIndex.push(itemIndex);
           // isFillAll = true;
         } else {
@@ -105,13 +101,23 @@ FillNaire.prototype = {
   },
   setChoiceData: function () {
     let that = this;
-    console.log(that.naire);
     let sels = that.dataDeal();
     for (let opt in sels) {
       sels[opt].map((item, index) => {
         that.naire.content[opt].optionContent[item].choiceData ++;
       });
     };
+    [...$('.optMain')].map((option, index) => {
+      let textarea = option.getElementsByClassName('textInput');
+      if (textarea.length !== 0) {
+        let content = that.naire.content[index].optionContent[0].content;
+        if (Array.isArray(content) === false) {
+          content = [];
+        };
+        content.push(textarea[0].value);
+        that.naire.content[index].optionContent[0].content = content;
+      }
+    });
     let storeData = store.get();
     storeData.splice(viewIndex, 1, that.naire);
     sessionStorage.setItem('naire', JSON.stringify(storeData));
@@ -122,21 +128,10 @@ FillNaire.prototype = {
    */
   fillOver: function () {
     let that = this;
-    let flag = true;
-    let allSels = that.dataDeal();
-    for (let key in allSels) {
-      if (allSels[key].length === 0) {
-        flag = false;
-      }
-    };
     if (that.naire.statu === '未发布') {
       alert('问卷尚未发布，填写数据无效');
       return;
     }
-    if (!flag) {
-      alert('存在未选中的选项');
-      return;
-    };
     that.setChoiceData();
     window.location.href = 'list.html';
   }
@@ -144,7 +139,6 @@ FillNaire.prototype = {
 let store = new Storage('naire');
 let fillNaire = new FillNaire(store.getActItem('isView'));
 let viewIndex = store.get().findIndex(function (val, index, arr) {
-  console.log('val', val);
   return val.isView === true;
 });
 

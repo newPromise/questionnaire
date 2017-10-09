@@ -1,6 +1,5 @@
 import './calender.css';
 import {c, $} from '../../common/comJs.js';
-console.log('日期', new Date() < new Date(2017, 9, 10));
 
 function Calender() {
   this.date = new Date();
@@ -104,7 +103,6 @@ Calender.prototype = {
     calenderWeek.className = 'calenderWeek';
     let week = '';
     weeks.map((item) => {
-      console.log('yes');
       week = c('span');
       week.innerText = item;
       calenderWeek.appendChild(week);
@@ -121,7 +119,6 @@ Calender.prototype = {
     that.jugeMon(that.month);
     let firstDay = new Date(that.year, that.month, 1).getDay();
     let days = new Date(that.year, that.month + 1, 0).getDate();
-    console.log('that.month', that.month);
     return that.addDays(firstDay, days);
   },
   getDays: function () {
@@ -160,7 +157,6 @@ Calender.prototype = {
         cellArr[i].className = 'cell date';
         cellArr[i].onclick = function () {
           that.day = i;
-          console.log('被选中的日历', $('.calenderCon')[0]);
           $('.calenderCon')[0].style.display = 'none';
         };
       } else {

@@ -19,7 +19,6 @@ NaireData.prototype = {
   constructor: NaireData,
   init: function () {
     let that = this;
-    console.log('你正在看的naire', that.naire);
     $('.naireTitle')[0].innerText = that.naire.title;
     [].slice.call($('.back')).map((e) => {
       e.onclick = function () {
@@ -27,16 +26,19 @@ NaireData.prototype = {
       }
     });
     for (let dt of that.naire.content) {
-      console.log('dt', dt);
       let qsOrder = `Q${$('.dataContent')[0].childNodes.length + 1}`;
-      $('.dataContent')[0].appendChild(that.setDom(dt.optionTitle, dt.optionContent, qsOrder));
-      that.echartPie(qsOrder, dt.optionContent);
-      console.log('qsOrder', qsOrder, dt.optionContent);
+      $('.dataContent')[0].appendChild(that.setDom(dt.optionTitle, dt.optionContent, qsOrder, dt.optionType));
+      if (dt.optionType !== 'textarea') {
+        that.echartPie(qsOrder, dt.optionContent);
+        // document.getElementById(qsOrder).getElement
+      } else {
+        let chartArea = document.getElementById(qsOrder);
+        chartArea.parentNode.removeChild(chartArea);
+      }
     }
     // that.toEcharts('Q1');
   },
-  setDom: function (title, content, chartsId) {
-    console.log('得到的input', title, content);
+  setDom: function (title, content, chartsId, optionType) {
     let that = this;
     let option = c('div');
     option.className = 'option';
@@ -54,8 +56,16 @@ NaireData.prototype = {
     // 需要循环 optBody
     optItem.appendChild(optHead);
     content.map((item, index) => {
-      console.log('optItem', item);
-      optItem.appendChild(that.optItems(item.content));
+      if (optionType === 'textarea') {
+        item.content.map((item, index) => {
+          let t = c('p');
+          t.className = 'showText';
+          t.appendChild(that.optItems(item));
+          optItem.appendChild(t);
+        });
+      } else {
+        optItem.appendChild(that.optItems(item.content));
+      }
     });
     // optItem.appendChild(optBody);
     let optData = c('div');
@@ -83,16 +93,11 @@ NaireData.prototype = {
       },
       series: [
         {
-          name: '访问来源',
+          name: '统计选择次数',
           type: 'pie',
           radius: '55%',
           center: ['50%', '60%'],
           data: [
-            {value: 335, name: '直接访问'},
-            {value: 310, name: '邮件营销'},
-            {value: 234, name: '联盟广告'},
-            {value: 135, name: '视频广告'},
-            {value: 1548, name: '搜索引擎'}
           ],
           itemStyle: {
             emphasis: {

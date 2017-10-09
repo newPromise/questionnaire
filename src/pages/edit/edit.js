@@ -3,7 +3,7 @@ import '../../common/comCss.css';
 import './edit.css';
 import {header} from '../../components/header/header.js';
 import {Indicator} from '../../components/indicator/indicator.js';
-import {setDom, date} from '../../components/calender/calender.js';
+import {setDom} from '../../components/calender/calender.js';
 import {$, c, Storage} from '../../common/comJs.js';
 let naire = new Storage('naire');
 let editNaire = naire.getActItem('isEdit');
@@ -159,7 +159,6 @@ Edit.prototype = {
     optDel.className = 'optDel';
     optDel.innerText = '选项减';
     optAdd.onclick = function () {
-      console.log('选项加', type);
       opt.parentNode.appendChild(that.addOptItem(type));
     };
     optDel.onclick = function () {
@@ -206,7 +205,6 @@ Edit.prototype = {
    * @return {[type]} [description]
    */
   saveNaire: function (statu) {
-    console.log('选择的日期', date);
     let naireTitle = $('.title-input')[0].value;
     // if (!naireTitle) {
     //   alert('请输入问卷标题');
@@ -237,9 +235,6 @@ Edit.prototype = {
         optionContent: []
       };
       let optVals = item.getElementsByClassName('optVal');
-      if (item.getElementsByClassName('textInput')) {
-        // optVals = item.getElementsByClassName('textInput');
-      };
       optVals = [].slice.call(optVals);
       optVals.map((opt) => {
         let obj = {};
@@ -252,7 +247,6 @@ Edit.prototype = {
     return naire;
   },
   jugeMust: function () {
-    console.log('must juge');
     let flag = true;
     if ($('.title-input')[0].value === '') {
       alert('问卷标题必填');
@@ -304,7 +298,6 @@ $('.save')[0].onclick = function () {
 
 $('.public')[0].onclick = function () {
   if (edit.jugeMust()) {
-    console.log('jusge');
     let allStore = naire.get();
     allStore.splice(editIndex, 1, edit.saveNaire('已发布'));
     sessionStorage.setItem('naire', JSON.stringify(allStore));
@@ -322,7 +315,6 @@ Object.defineProperty(indicator, 'ensure', {
   },
   set (newVal) {
     if (newVal) {
-      console.log('editIndex', editIndex);
       if (editIndex === -1) {
         let store = new Storage('naire', edit.saveNaire('未发布'));
         store.set();

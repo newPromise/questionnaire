@@ -6,7 +6,6 @@ class Indicator {
     this.ensure = false;
   }
   init () {
-    console.log('body', document.documentElement.clientWidth);
     $('body')[0].appendChild(this.setDom());
   }
   setDom () {
@@ -38,7 +37,6 @@ class Indicator {
     };
     cancel.innerText = '取消';
     cancel.onclick = () => {
-      console.log('this', this);
       this.close();
     };
     ensure.className = 'ensure';

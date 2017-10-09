@@ -100,7 +100,6 @@ List.prototype = {
           case 'edit':
             storeNaire.setAct(index, 'isEdit');
             window.location.href = 'edit.html';
-            console.log('edit');
             break;
           case 'view':
             if (status === '已发布') {
@@ -147,13 +146,11 @@ Object.defineProperty(indicator, 'ensure', {
 
 let toDel = new Promise(function (resolve, reject) {
   if (indicator.ensure) {
-    console.log('mtydfsa');
     resolve();
   } else {
     reject();
   }
 });
 toDel.then(function (value) {
-  console.log('异步函数被原型');
 }, function () {
 });
