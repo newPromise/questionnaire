@@ -1,19 +1,33 @@
 import './data.html';
-import './data.css';
 import '../../common/comCss.css';
+import './data.css';
 import {header} from '../../components/header/header.js';
-import {$, c} from '../../common/comJs.js';
+import {$, c, Storage} from '../../common/comJs.js';
 $('.nairecontent')[0].insertBefore(header(), $('.nairecontent')[0].childNodes[0]);
+var echarts = require('echarts');
+// 引入柱状图
+// 引入提示框和标题组件
+require('echarts/lib/component/tooltip');
+require('echarts/lib/component/title');
+let store = new Storage('naire');
+let dataNaire = store.getActItem('isData');
 
-let NaireData = function () {
+let NaireData = function (naire) {
+  this.naire = naire;
 };
 NaireData.prototype = {
   constructor: NaireData,
   init: function () {
     let that = this;
-    $('.dataContent')[0].appendChild(that.setDom());
+    console.log('你正在看的naire', that.naire);
+    for (let dt of that.naire.content) {
+      console.log('dt', dt);
+      let qsOrder = `Q${$('.dataContent')[0].childNodes.length + 1}`;
+      $('.dataContent')[0].appendChild(that.setDom(dt.optionTitle, dt.optionContent, qsOrder));
+    }
+    // that.toEcharts('Q1');
   },
-  setDom: function () {
+  setDom: function (title, content, chartsId) {
     // let that = this;
     let option = c('div');
     option.className = 'option';
@@ -22,10 +36,10 @@ NaireData.prototype = {
     let optHead = c('p');
     let optOrder = c('span');
     optOrder.className = 'optOrder';
-    optOrder.innerText = 'Q1';
+    optOrder.innerText = chartsId;
     let optTitle = c('span');
     optTitle.className = 'optTitle';
-    optTitle.innerText = '我是选项标题';
+    optTitle.innerText = title;
     optHead.appendChild(optOrder);
     optHead.appendChild(optTitle);
     // 需要循环 optBody
@@ -38,13 +52,100 @@ NaireData.prototype = {
     optItem.appendChild(optBody);
     let optData = c('div');
     optData.className = 'optData';
+    optData.setAttribute('id', chartsId);
     option.appendChild(optItem);
     option.appendChild(optData);
     return option;
   },
-  echarts: function () {
+  another: function (echartDom) {
+    console.log('chartsId', echartDom);
+    let datas = document.getElementById(echartDom);
+    let charts = echarts.init(datas);
+    charts.setOption({
+      title: {},
+      tooltip: {},
+      xAxis: {
+        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+      },
+      yAxis: {},
+      series: [{
+        name: '销量',
+        type: 'bar',
+        data: [5, 20, 36, 10, 10, 20]
+      }]
+    });
+    console.log('charts', charts);
+    return charts;
+  },
+  toEcharts: function (echartDom, echartType) {
+    let datas = document.getElementById(echartDom);
+    let charts = echarts.init(datas);
+    console.log('myCharts', charts);
+    charts.setOption({
+      title: {
+        text: ''
+      },
+      legend: {
+        data: [],
+        borderColor: ['#EE7419']
+      },
+      xAxis: {
+        data: [],
+        type: 'value',
+        show: false,
+        axisTick: {
+          show: false
+        }
+      },
+      yAxis: {
+        type: 'category',
+        show: false,
+        axisTick: {
+          show: false
+        }
+      },
+      series: [{
+        type: 'bar',
+        name: '人工',
+        data: [{
+          value: 10,
+          color: 'blue',
+          borderColor: 'red'
+        }],
+        stack: 'income',
+        barWidth: 30,
+        borderColor: ['red'],
+        color: ['blue'],
+        label: {
+          normal: {
+            show: true,
+            position: 'inside',
+            formatter: function(obj) {
+              return obj.value + '%';
+            }
+          }
+        }
+      }, {
+        type: 'bar',
+        name: '自动',
+        data: [90],
+        stack: 'income',
+        barWidth: 30,
+        color: ['#EE7419'],
+        borderColor: ['#272822'],
+        label: {
+          normal: {
+            show: true,
+            position: 'inside',
+            formatter: function(obj) {
+              return obj.value + '%';
+            }
+          }
+        }
+      }]
+    })
   }
 };
 
-let naireData = new NaireData();
+let naireData = new NaireData(dataNaire);
 naireData.init();

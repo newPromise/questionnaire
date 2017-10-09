@@ -8,7 +8,6 @@ import {$, c, Storage} from '../../common/comJs.js';
 let naire = new Storage('naire');
 let editNaire = naire.getActItem('isEdit');
 let editIndex;
-console.log('naire.get', naire.get());
 editIndex = naire.get().findIndex(function (val, index, arr) {
   console.log('val', val);
   return val.isEdit === true;
