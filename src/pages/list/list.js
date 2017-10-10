@@ -16,13 +16,16 @@ List.prototype = {
   init: function () {
     let that = this;
     $('.main')[0].innerHTML = '';
-    that.addList();
+    that.addListLabel();
     that.getStorage();
     $('.main')[0].appendChild(that.addNew());
     if (!$('.header')[0]) {
       $('.nairecontent')[0].insertBefore(header(), $('.nairecontent')[0].childNodes[0]);
     }
   },
+  /**
+   * [addNew 新建问卷按钮，点击新建问卷调到 edit.html]
+   */
   addNew: function () {
     let addNew = c('div');
     addNew.className = 'addNewWrap';
@@ -35,8 +38,10 @@ List.prototype = {
     addNew.appendChild(addNewBtn);
     return addNew;
   },
-  addList: function () {
-    // let that = this;
+  /**
+   * [addListLabel 问卷列表标签]
+   */
+  addListLabel: function () {
     let labels = c('div');
     labels.className = 'list label';
     let lbs = ['标题', '截止时间', '状态', '操作'];
@@ -47,8 +52,11 @@ List.prototype = {
       labels.appendChild(lb);
     });
     $('.main')[0].appendChild(labels);
-    // $('.main')[0].appendChild(that.getList());
   },
+  /**
+   * [getStorage 添加已经存在的问卷]
+   * @return {[type]} [description]
+   */
   getStorage: function () {
     let that = this;
     let store = storeNaire.get();
@@ -61,6 +69,13 @@ List.prototype = {
       }
     })
   },
+  /**
+   * [getList 显示所有问卷列表]
+   * @param  {[string]} title  [调查问卷标题]
+   * @param  {[string]} time   [调查问卷截止时间]
+   * @param  {[string]} status [调查问卷状态 已发布 : 未发布]
+   * @return {[Object]}        [创建的问卷节点]
+   */
   getList: function (title, time, status, index) {
     let that = this;
     let naireItem = c('div');
@@ -142,15 +157,4 @@ Object.defineProperty(indicator, 'ensure', {
       list.init();
     }
   }
-});
-
-let toDel = new Promise(function (resolve, reject) {
-  if (indicator.ensure) {
-    resolve();
-  } else {
-    reject();
-  }
-});
-toDel.then(function (value) {
-}, function () {
 });

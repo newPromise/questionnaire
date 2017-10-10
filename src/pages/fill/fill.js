@@ -22,6 +22,11 @@ FillNaire.prototype = {
       $('input')[i].setAttribute('readonly', 'readonly');
     };
   },
+  /**
+   * [addOpts 添加问题]
+   * @param {[object]} item [问题对象列表]
+   * @return ([object]) 添加的问题节点
+   */
   addOpts: function (item) {
     let that = this;
     let choiceItem = c('div');
@@ -38,7 +43,7 @@ FillNaire.prototype = {
     title.innerHTML += '<input type="text" value = ' + item.optionTitle + '  class="choiceTit">';
     qsCon.appendChild(title);
     item.optionContent.map((opts, index) => {
-      qsCon.appendChild(that.addOptItem(item.optionTitle, item.optionType, opts.content, index, opts.choiceData));
+      qsCon.appendChild(that.addOptItem(item.optionType, opts.content, index));
     });
     // sd
     context.appendChild(qsOrder);
@@ -46,7 +51,14 @@ FillNaire.prototype = {
     choiceItem.appendChild(context);
     return choiceItem;
   },
-  addOptItem: function (title, type, val, index, choiceData) {
+  /**
+   * [addOptItem 添加问题选项]
+   * @param {[String]} type       [选项类型,]
+   * @param {[String]} val        [选项内容]
+   * @param {[Number]} index      [选项位置]
+   * @return {[Object]} opt       [添加的选项dom]   
+   */
+  addOptItem: function (type, val, index) {
     // let that = this;
     let opt = c('p');
     let optSpan = c('span');
