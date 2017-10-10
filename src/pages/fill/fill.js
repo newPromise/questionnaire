@@ -56,7 +56,7 @@ FillNaire.prototype = {
    * @param {[String]} type       [选项类型,]
    * @param {[String]} val        [选项内容]
    * @param {[Number]} index      [选项位置]
-   * @return {[Object]} opt       [添加的选项dom]   
+   * @return {[Object]} opt       [添加的选项dom]
    */
   addOptItem: function (type, val, index) {
     // let that = this;

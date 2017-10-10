@@ -89,7 +89,7 @@ NaireData.prototype = {
    * @param  {[Object]} optionContent [表示选项被点击次数的所在选项对象]
    */
   echartPie: function (echartDomId, optionContent) {
-    let datas = document.getElementById(echartDom);
+    let datas = document.getElementById(echartDomId);
     let charts = echarts.init(datas);
     let option = {
       tooltip: {

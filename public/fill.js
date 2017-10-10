@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 173);
+/******/ 	return __webpack_require__(__webpack_require__.s = 184);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -641,196 +641,199 @@ class Client {
 
 /***/ }),
 
-/***/ 173:
+/***/ 184:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__list_html__ = __webpack_require__(174);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__list_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__list_html__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__fill_html__ = __webpack_require__(185);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__fill_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__fill_html__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_comCss_css__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_comCss_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__common_comCss_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__list_css__ = __webpack_require__(175);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__list_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__list_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_header_header_js__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_comJs_js__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_indicator_indicator_js__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__fill_css__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__fill_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__fill_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_comJs_js__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_header_header_js__ = __webpack_require__(26);
 
 
 
 
 
+Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.nairecontent')[0].insertBefore(Object(__WEBPACK_IMPORTED_MODULE_4__components_header_header_js__["a" /* header */])(), Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.nairecontent')[0].childNodes[0]);
 
-let storeNaire = new __WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["c" /* Storage */]('naire');
-let List = function () {
-  this.delIndex = '';
+let FillNaire = function (naire) {
+  this.naire = naire;
 };
-storeNaire.get().map((item, index) => {
-  storeNaire.setAct(index);
-});
-List.prototype = {
-  constructor: List,
+
+FillNaire.prototype = {
+  constructor: FillNaire,
   init: function () {
     let that = this;
-    Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["a" /* $ */])('.main')[0].innerHTML = '';
-    that.addListLabel();
-    that.getStorage();
-    Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["a" /* $ */])('.main')[0].appendChild(that.addNew());
-    if (!Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["a" /* $ */])('.header')[0]) {
-      Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["a" /* $ */])('.nairecontent')[0].insertBefore(Object(__WEBPACK_IMPORTED_MODULE_3__components_header_header_js__["a" /* header */])(), Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["a" /* $ */])('.nairecontent')[0].childNodes[0]);
-    }
-  },
-  /**
-   * [addNew 新建问卷按钮，点击新建问卷调到 edit.html]
-   */
-  addNew: function () {
-    let addNew = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('div');
-    addNew.className = 'addNewWrap';
-    let addNewBtn = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('span');
-    addNewBtn.innerText = '新建问卷';
-    addNewBtn.onclick = function () {
-      window.location.href = 'edit.html';
-    };
-    addNewBtn.className = 'addNew';
-    addNew.appendChild(addNewBtn);
-    return addNew;
-  },
-  /**
-   * [addListLabel 问卷列表标签]
-   */
-  addListLabel: function () {
-    let labels = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('div');
-    labels.className = 'list label';
-    let lbs = ['标题', '截止时间', '状态', '操作'];
-    lbs.map(item => {
-      let lb = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('span');
-      lb.className = 'lb';
-      lb.innerText = item;
-      labels.appendChild(lb);
+    Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.tipMsg')[0].innerText = that.naire.statu === '已发布' ? '问卷已发布' : '问卷尚未发布，填写数据无效';
+    Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.title-input')[0].value = that.naire.title || '';
+    that.naire.content.map((item, index) => {
+      Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.fillContent')[0].appendChild(that.addOpts(item));
     });
-    Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["a" /* $ */])('.main')[0].appendChild(labels);
+    for (let i = 0; i < Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('input').length; i++) {
+      Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('input')[i].setAttribute('readonly', 'readonly');
+    };
   },
   /**
-   * [getStorage 添加已经存在的问卷]
-   * @return {[type]} [description]
+   * [addOpts 添加问题]
+   * @param {[object]} item [问题对象列表]
+   * @return ([object]) 添加的问题节点
    */
-  getStorage: function () {
+  addOpts: function (item) {
     let that = this;
-    let store = storeNaire.get();
-    if (store.length === 0) {
-      window.location.href = 'index.html';
+    let choiceItem = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["d" /* c */])('div');
+    choiceItem.className = 'option';
+    let context = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["d" /* c */])('div');
+    context.className = 'optMain';
+    let qsOrder = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["d" /* c */])('span');
+    qsOrder.className = 'optOrder';
+    qsOrder.innerText = `Q${Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.fillContent')[0].childNodes.length + 1}`;
+    let qsCon = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["d" /* c */])('div');
+    qsCon.className = 'optContent';
+    let title = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["d" /* c */])('span');
+    title.className = 'optTitle';
+    title.innerHTML += '<input type="text" value = ' + item.optionTitle + '  class="choiceTit">';
+    qsCon.appendChild(title);
+    item.optionContent.map((opts, index) => {
+      qsCon.appendChild(that.addOptItem(item.optionType, opts.content, index));
+    });
+    // sd
+    context.appendChild(qsOrder);
+    context.appendChild(qsCon);
+    choiceItem.appendChild(context);
+    return choiceItem;
+  },
+  /**
+   * [addOptItem 添加问题选项]
+   * @param {[String]} type       [选项类型,]
+   * @param {[String]} val        [选项内容]
+   * @param {[Number]} index      [选项位置]
+   * @return {[Object]} opt       [添加的选项dom]
+   */
+  addOptItem: function (type, val, index) {
+    // let that = this;
+    let opt = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["d" /* c */])('p');
+    let optSpan = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["d" /* c */])('span');
+    opt.className = 'theOpt';
+    let label = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["d" /* c */])('label');
+    label.innerText = val;
+    let cInput = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["d" /* c */])('input');
+    if (type !== 'textarea') {
+      cInput.className = 'cInput';
+      cInput.setAttribute('name', Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.fillContent')[0].childNodes.length);
+      cInput.setAttribute('type', type);
+      cInput.setAttribute('value', val);
+      cInput.setAttribute('id', Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.fillContent')[0].childNodes.length + `${index}`);
+      cInput.className = 'optVal';
+    } else {
+      cInput = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["d" /* c */])('textarea');
+      cInput.setAttribute('placeholder', val);
+      cInput.className = 'textInput optVal';
     };
-    store.map((item, index) => {
-      if (item) {
-        Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["a" /* $ */])('.main')[0].appendChild(that.getList(item.title, item.date, item.statu, index));
+    optSpan.appendChild(cInput);
+    if (type !== 'textarea') {
+      label.setAttribute('for', Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.fillContent')[0].childNodes.length + `${index}`);
+      optSpan.appendChild(label);
+    };
+    opt.appendChild(optSpan);
+    return opt;
+  },
+  /**
+   * [dataDeal 遍历文档, 获取选择到的节点索引]
+   * @return {[Object]} [代表被选中的节点位置数据结构]
+   */
+  dataDeal: function () {
+    let allOpts = Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.optContent');
+    let allIndex = {};
+    // let choiceIndexs = [];
+    // let isFillAll = false;
+    let optItemIndex = [];
+    [...allOpts].map((option, index) => {
+      let optItems = option.getElementsByClassName('optVal');
+      // let textareaInput = option.getElementsByClassName('textInput');
+      [...optItems].map((item, itemIndex) => {
+        if (item.checked) {
+          optItemIndex.push(itemIndex);
+          // isFillAll = true;
+        } else {}
+      });
+      allIndex[index] = optItemIndex;
+      optItemIndex = [];
+    });
+    return allIndex;
+  },
+  setChoiceData: function () {
+    let that = this;
+    let sels = that.dataDeal();
+    for (let opt in sels) {
+      sels[opt].map((item, index) => {
+        that.naire.content[opt].optionContent[item].choiceData++;
+      });
+    };
+    [...Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.optMain')].map((option, index) => {
+      let textarea = option.getElementsByClassName('textInput');
+      if (textarea.length !== 0) {
+        let content = that.naire.content[index].optionContent[0].content;
+        if (Array.isArray(content) === false) {
+          content = [];
+        };
+        content.push(textarea[0].value);
+        that.naire.content[index].optionContent[0].content = content;
       }
     });
+    let storeData = store.get();
+    storeData.splice(viewIndex, 1, that.naire);
+    sessionStorage.setItem('naire', JSON.stringify(storeData));
   },
   /**
-   * [getList 显示所有问卷列表]
-   * @param  {[string]} title  [调查问卷标题]
-   * @param  {[string]} time   [调查问卷截止时间]
-   * @param  {[string]} status [调查问卷状态 已发布 : 未发布]
-   * @return {[Object]}        [创建的问卷节点]
+   * [fillOver 点击确定按钮进行逻辑判断]
+   * @return {[type]} [description]
    */
-  getList: function (title, time, status, index) {
+  fillOver: function () {
     let that = this;
-    let naireItem = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('div');
-    naireItem.className = 'naireItem';
-    let checkLabel = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('input');
-    checkLabel.setAttribute('type', 'checkbox');
-    checkLabel.className = 'checkLabel';
-    let list = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('div');
-    list.className = 'list';
-    let listTitle = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('span');
-    listTitle.className = 'title';
-    listTitle.innerText = title;
-    let listTime = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('span');
-    listTime.className = 'time';
-    listTime.innerText = time;
-    let listStatus = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('span');
-    listStatus.innerText = status;
-    listStatus.className = 'status';
-    let actions = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('div');
-    actions.className = 'actions';
-    let acts = {
-      'view': '查看',
-      'edit': '编辑',
-      'delete': '删除'
-    };
-    if (status === '已发布') {
-      acts.data = '数据';
-      acts.view = '填写';
-    };
-    for (let key in acts) {
-      let act = Object(__WEBPACK_IMPORTED_MODULE_4__common_comJs_js__["d" /* c */])('span');
-      act.className = 'key';
-      act.innerText = acts[key];
-      actions.appendChild(act);
-      act.onclick = function () {
-        switch (key) {
-          case 'edit':
-            storeNaire.setAct(index, 'isEdit');
-            window.location.href = 'edit.html';
-            break;
-          case 'view':
-            if (status === '已发布') {
-              storeNaire.setAct(index, 'isView');
-              window.location.href = 'fill.html';
-            } else if (status === '未发布') {
-              storeNaire.setAct(index, 'isView');
-              window.location.href = 'fill.html';
-            };
-            break;
-          case 'delete':
-            indicator.open();
-            that.delIndex = index;
-            break;
-          case 'data':
-            storeNaire.setAct(index, 'isData');
-            window.location.href = 'data.html';
-        }
-      };
-    };
-    list.appendChild(listTitle);
-    list.appendChild(listTime);
-    list.appendChild(listStatus);
-    list.appendChild(actions);
-    naireItem.appendChild(checkLabel);
-    naireItem.appendChild(list);
-    return naireItem;
+    if (that.naire.statu === '未发布') {
+      alert('问卷尚未发布，填写数据无效');
+      return;
+    }
+    that.setChoiceData();
+    window.location.href = 'list.html';
   }
 };
-
-let list = new List();
-list.init();
-let indicator = new __WEBPACK_IMPORTED_MODULE_5__components_indicator_indicator_js__["a" /* Indicator */]('确认要删除该问卷');
-Object.defineProperty(indicator, 'ensure', {
-  get() {},
-  set(newVal) {
-    if (newVal) {
-      storeNaire.del(list.delIndex);
-      list.init();
-    }
-  }
+let store = new __WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["c" /* Storage */]('naire');
+let fillNaire = new FillNaire(store.getActItem('isView'));
+let viewIndex = store.get().findIndex(function (val, index, arr) {
+  return val.isView === true;
 });
 
+fillNaire.init();
+Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.return')[0].onclick = function () {
+  window.location.href = 'list.html';
+};
+
+Object(__WEBPACK_IMPORTED_MODULE_3__common_comJs_js__["a" /* $ */])('.submit')[0].onclick = function () {
+  fillNaire.fillOver();
+};
+
 /***/ }),
 
-/***/ 174:
+/***/ 185:
 /***/ (function(module, exports) {
 
-module.exports = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Document</title>\r\n</head>\r\n<body>\r\n    <div class=\"nairecontent\">\r\n        <div class=\"main\"></div>\r\n    </div>\r\n</body>\r\n</html>\r\n"
+module.exports = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Document</title>\r\n</head>\r\n<body>\r\n    <div class=\"nairecontent\">\r\n        <div class=\"main\">\r\n          <div class=\"title\">\r\n                <input readonly class=\"title-input\">\r\n                <span class=\"tipMsg\"></span>\r\n          </div>\r\n          <div class=\"fillContent\"></div>\r\n          <div class=\"fillAction\">\r\n            <span class=\"submit\">提交</span>\r\n            <span class=\"return\">返回</span>\r\n          </div>\r\n        </div>\r\n    </div>\r\n</body>\r\n</html>\r\n"
 
 /***/ }),
 
-/***/ 175:
+/***/ 186:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(176);
+var content = __webpack_require__(187);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -844,8 +847,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!./list.css", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!./list.css");
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./fill.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./fill.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -856,7 +859,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 176:
+/***/ 187:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(12)(undefined);
@@ -864,7 +867,7 @@ exports = module.exports = __webpack_require__(12)(undefined);
 
 
 // module
-exports.push([module.i, "\r\n.main {\r\n  width: 900px;\r\n}\r\n.naireItem {\r\n  width: 100%;\r\n  border-bottom: 1px solid lightgray;\r\n}\r\n.checkLabel {\r\n  position: absolute;\r\n  height: 50px;\r\n  margin-left: 30px;\r\n}\r\n.list {\r\n    display: flex;\r\n    padding: 10px;\r\n    margin-left: 50px;\r\n}\r\n.list span {\r\n    flex: 1;\r\n    text-align: center;\r\n}\r\n.list div {\r\n    flex: 2;\r\n    text-align: center;\r\n}\r\n.actions {\r\n  display: flex;\r\n  padding: 5px 10px;\r\n}\r\n.actions span {\r\n  flex:１;\r\n  margin: 0 10px;\r\n  border:  1px solid black;\r\n}\r\n.label span:last-child {\r\n  flex: 2;\r\n}\r\n.label {\r\n    \r\n}\r\n.addNewWrap {\r\n  width: 100%;\r\n  text-align: left;\r\n  margin-top: 50px;\r\n}\r\n.addNew {\r\n  line-height: 30px;\r\n  text-align: center;\r\n  border-radius: 5px;\r\n  width: 80px;\r\n  height: 30px;\r\n  background-color: #EE7419;\r\n  color: white;\r\n  display: inline-block;\r\n}\r\n", ""]);
+exports.push([module.i, ".title-input{\r\n    width: 100%;   \r\n    height: 60px;\r\n    font-size: 40px;\r\n    font-weight: bold;\r\n    text-align: center;\r\n    border: none;\r\n}\r\n.fillContent{\r\n    margin: 20px 0;\r\n    padding: 20px;\r\n    border: 2px solid gray;\r\n    border-left: 0;\r\n    border-right: 0;\r\n}\r\n.optMain{\r\n    position: relative;\r\n}\r\n.optMain input{\r\n    border: 0;\r\n}\r\n\r\n.optTitle input{\r\n    font-size: 20px;\r\n}\r\n.optOrder{\r\n    position: absolute;\r\n    top: 0;\r\n}\r\n.optContent{\r\n    text-align: left;\r\n    display: inline-block;\r\n    margin-left: 40px;\r\n}\r\n.optContent p{\r\n    display: block;\r\n    margin: 10px 0;\r\n}\r\n.optContent .optVal{\r\n    height: 30px;\r\n}\r\n.optContent .textInput{\r\n    width: 700px;\r\n    height: 200px;\r\n    overflow: hidden;\r\n    overflow-y: scroll;\r\n    border: 1px solid lightgray;\r\n    padding: 20px;\r\n}\r\n.optContent input{\r\n    margin-right: 10px;\r\n}\r\n.fillAction {\r\n    display: flex;\r\n}\r\n.fillAction span {\r\n    border: 1px solid lightgray;\r\n    flex: 1;\r\n    text-align: center;\r\n    border-radius: 2px;\r\n    line-height: 30px;\r\n    margin: 0 150px;\r\n    width: 50px;\r\n    height: 30px;\r\n}\r\n.submit {\r\n    background-color: #F07600;\r\n    color: white;\r\n}\r\n.optVal {\r\n    vertical-align: middle;\r\n}\r\n", ""]);
 
 // exports
 
@@ -1036,132 +1039,6 @@ let header = function () {
   node.appendChild(mynaire);
   return node;
 };
-
-
-/***/ }),
-
-/***/ 68:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Indicator; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__indicator_css__ = __webpack_require__(69);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__indicator_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__indicator_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_comJs_js__ = __webpack_require__(14);
-
-
-class Indicator {
-  constructor(dom) {
-    this.dom = dom;
-    this.ensure = false;
-  }
-  init() {
-    Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["a" /* $ */])('body')[0].appendChild(this.setDom());
-  }
-  setDom() {
-    let shade = Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["d" /* c */])('div');
-    shade.className = 'shade';
-    let alertBox = Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["d" /* c */])('div');
-    alertBox.className = 'alertBox';
-    let alertHead = Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["d" /* c */])('div');
-    alertHead.className = 'alertHead';
-    alertHead.innerHTML = '<span>提示</span>';
-    let close = Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["d" /* c */])('span');
-    close.className = 'close';
-    close.innerText = '关闭';
-    close.onclick = () => {
-      this.close();
-    };
-    alertHead.appendChild(close);
-    let alertBody = Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["d" /* c */])('div');
-    alertBody.className = 'alertBody';
-    alertBody.innerHTML = this.dom;
-    let alertFooter = Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["d" /* c */])('div');
-    alertFooter.className = 'alertFooter';
-    let ensure = Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["d" /* c */])('span');
-    let cancel = Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["d" /* c */])('span');
-    ensure.innerText = '确定';
-    ensure.onclick = () => {
-      this.ensure = true;
-      this.close();
-    };
-    cancel.innerText = '取消';
-    cancel.onclick = () => {
-      this.close();
-    };
-    ensure.className = 'ensure';
-    cancel.className = 'cancel';
-    alertFooter.appendChild(ensure);
-    alertFooter.appendChild(cancel);
-    alertBox.appendChild(alertHead);
-    alertBox.appendChild(alertBody);
-    alertBox.appendChild(alertFooter);
-    shade.appendChild(alertBox);
-    let client = new __WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["b" /* Client */]();
-    shade.style.width = client.clientWidth();
-    shade.style.height = client.clientHeight();
-    return shade;
-  }
-  open() {
-    if (typeof Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["a" /* $ */])('.shade')[0] !== 'object') {
-      this.init();
-    } else {
-      Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["a" /* $ */])('.shade')[0].style.display = '';
-    };
-    this.ensure = false;
-  }
-  close() {
-    Object(__WEBPACK_IMPORTED_MODULE_1__common_comJs_js__["a" /* $ */])('.shade')[0].style.display = 'none';
-    return false;
-  }
-};
-
-
-/***/ }),
-
-/***/ 69:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(70);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(13)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!./indicator.css", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!./indicator.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 70:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(12)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".shade {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 2017;\r\n  background-color: rgba(128,128,128,0.5);\r\n}\r\n.alertBox {\r\n  background-color: white;\r\n  width: 350px;\r\n  overflow: hidden;\r\n  border-radius: 5px;\r\n  height: 200px;\r\n  position: fixed;\r\n  left: 0;\r\n  right: 0;\r\n  top: 100px;\r\n  margin: auto;\r\n  bottom: 0;\r\n}\r\n.alertHead, .alertBody, .alertFooter {\r\n  padding: 0 30px;\r\n}\r\n.alertHead {\r\n  background-color: #F7F7F7;\r\n  display: flex;\r\n  justify-content: space-between;\r\n}\r\n.alertHead span {\r\n  text-align: center;\r\n  flex: 1;\r\n  width: 20px;\r\n  height: 50px;\r\n  line-height: 50px;\r\n}\r\n.close {\r\n  margin-left: 150px;\r\n}\r\n\r\n.alertBody {\r\n  width: 100%;\r\n}\r\n\r\n.alertFooter {\r\n  width: 100%;\r\n  position: absolute;\r\n  bottom: 30px;\r\n  display: flex;\r\n  justify-content: space-around;\r\n}\r\n.alertFooter span {\r\n  border-radius: 2px;\r\n  border: 1px solid lightgray;\r\n  margin-left: 60px;\r\n  text-align: center;\r\n  \r\n  flex: 1;\r\n}\r\n.ensure {\r\n  background-color: #F07600;\r\n  color: white;\r\n}\r\n.cancel {\r\n  color: black;\r\n}", ""]);
-
-// exports
 
 
 /***/ })

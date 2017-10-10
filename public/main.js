@@ -60,11 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 169);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 12:
 /***/ (function(module, exports) {
 
 /*
@@ -146,7 +147,8 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 1 */
+
+/***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -192,7 +194,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(7);
+var	fixUrls = __webpack_require__(25);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -505,12 +507,15 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 2 */
+
+/***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return c; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return c; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return $; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Storage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Client; });
 /**
  * [创建标签]
  * @param  {[String]} tag [创建的标签名字]
@@ -556,49 +561,122 @@ let $ = (context, fnode) => {
   }
 };
 
+class Storage {
+  constructor(name = '', content, key) {
+    this.name = name;
+    this.content = content;
+  }
+  get() {
+    let getContent = JSON.parse(sessionStorage.getItem(this.name));
+    return getContent || [];
+  }
+  /**
+   * [reset  reset the sessionStorage]
+   * @return {[type]} [new sessionStorage]
+   */
+  reset() {
+    let resetStore = sessionStorage.setItem(this.name, JSON.stringify(this.content));
+    return resetStore;
+  }
+  set() {
+    let storeContent = this.get();
+    if (storeContent === null) {
+      storeContent = [];
+    };
+    storeContent.push(this.content);
+    sessionStorage.setItem(this.name, JSON.stringify(storeContent));
+  }
+  del(index) {
+    let store = this.get();
+    store.splice(index, 1);
+    sessionStorage.setItem(this.name, JSON.stringify(store));
+  }
+  /**
+   * [getActItem 获得存在某种动作的问卷对象]
+   * @param  {[String]} act [问卷对象的动作 isEdit: 是否编辑 isView: 是否查看]
+   * @return {[obj]}     [特定动作为true的对象]
+   */
+  getActItem(act) {
+    let actItem = '';
+    let store = this.get();
+    if (store) {
+      store.map((item, index) => {
+        if (item[act] === true) {
+          actItem = item;
+        }
+      });
+    }
+    return actItem;
+  }
+  /**
+   * [setAct 改变特定的动作状态]
+   * @param {[Number]} index [问卷对象在存放中的索引]
+   * @param {[act]} act   [需要设定为 true 的动作, 表示需要进行那项动作]
+   */
+  setAct(index, act) {
+    let store = this.get();
+    store.map(item => {
+      item.isEdit = false;
+      item.isView = false;
+      item.isData = false;
+    });
+    store[index][act] = true;
+    sessionStorage.setItem(this.name, JSON.stringify(store));
+  }
+};
+
+class Client {
+  constructor() {
+    this.doc = document.documentElement || document.body;
+  }
+  clientWidth() {
+    return this.doc.clientWidth + 'px';
+  }
+  clientHeight() {
+    return this.doc.clientHeight + 'px';
+  }
+};
+
 
 
 /***/ }),
-/* 3 */
+
+/***/ 169:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_html__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_html__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__index_html__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_common_comCss_css__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_common_comCss_css__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_common_comCss_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__src_common_comCss_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__index_css__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__index_css__ = __webpack_require__(171);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__index_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__index_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_components_header_js__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_common_comJs_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_components_header_header_js__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_common_comJs_js__ = __webpack_require__(14);
 
 
 
 
 
-console.log('我是一段风流韵事');
-console.log('我是张宁宁放到');
-console.log('.nairecontent', Object(__WEBPACK_IMPORTED_MODULE_4__src_common_comJs_js__["a" /* $ */])('.nairecontent')[0].childNodes[0]);
-// let content = document.getElementsByClassName('nairecontent')[0];
-Object(__WEBPACK_IMPORTED_MODULE_4__src_common_comJs_js__["a" /* $ */])('.nairecontent')[0].insertBefore(Object(__WEBPACK_IMPORTED_MODULE_3__src_components_header_js__["a" /* header */])(), Object(__WEBPACK_IMPORTED_MODULE_4__src_common_comJs_js__["a" /* $ */])('.nairecontent')[0].childNodes[0]);
-console.log('使用header获得的文字', Object(__WEBPACK_IMPORTED_MODULE_3__src_components_header_js__["a" /* header */])());
-console.log(Object(__WEBPACK_IMPORTED_MODULE_4__src_common_comJs_js__["a" /* $ */])('.nairecontent'));
+Object(__WEBPACK_IMPORTED_MODULE_4__src_common_comJs_js__["a" /* $ */])('.nairecontent')[0].insertBefore(Object(__WEBPACK_IMPORTED_MODULE_3__src_components_header_header_js__["a" /* header */])(), Object(__WEBPACK_IMPORTED_MODULE_4__src_common_comJs_js__["a" /* $ */])('.nairecontent')[0].childNodes[0]);
 
 /***/ }),
-/* 4 */
+
+/***/ 170:
 /***/ (function(module, exports) {
 
 module.exports = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Title</title>\r\n</head>\r\n<body>\r\n<div class=\"nairecontent\">\r\n    <div class=\"main\">\r\n        <a href=\"edit.html\" class=\"add color-y\">新增问卷</a>\r\n    </div>\r\n</div>\r\n<!--bundle.js 表示打包之后的js文件-->\r\n<!-- main.js 表示js进行打包之后的js 文件 -->\r\n\r\n</html>"
 
 /***/ }),
-/* 5 */
+
+/***/ 171:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(6);
+var content = __webpack_require__(172);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -606,7 +684,54 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(1)(content, options);
+var update = __webpack_require__(13)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!./index.css", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!./index.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 172:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(12)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".add {\r\n    display: block;\r\n    width: 100px;\r\n    height: 40px;\r\n    line-height: 40px;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    margin: auto;\r\n    overflow: hidden;\r\n}\r\n.main{\r\n    padding: 50px 0;\r\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 23:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(24);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(13)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -623,21 +748,23 @@ if(false) {
 }
 
 /***/ }),
-/* 6 */
+
+/***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(undefined);
+exports = module.exports = __webpack_require__(12)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\r\n* {\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n.nairecontent {\r\n    width: 800px;\r\n    background-color: #EFEFEF;\r\n    margin: auto;\r\n    margin-top: 100px;\r\n    overflow: hidden;\r\n    min-height: 500px;\r\n}\r\n.main{\r\n    width: 500px;\r\n    margin: 50px auto;\r\n    background-color: white;\r\n}\r\n.header{\r\n    width: 100%;\r\n    height: 50px;\r\n    padding: 0 40px;\r\n    background-color: #EE7419;\r\n}\r\n.header span{\r\n    color: white;\r\n    margin: 20px;\r\n    line-height: 50px;\r\n}\r\n\r\n.color-y {\r\n    background-color: #EE7419;\r\n    color: white;\r\n}\r\n", ""]);
+exports.push([module.i, "\r\n* {\r\n    padding: 0;\r\n    margin: 0;\r\n    box-sizing: border-box;\r\n}\r\n.nairecontent {\r\n    width: 1000px;\r\n    background-color: #EFEFEF;\r\n    margin: auto;\r\n    margin-top: 40px;\r\n    overflow: hidden;\r\n    min-height: 1000px;\r\n}\r\nbody {\r\n    border: 1px solid white;\r\n}\r\n.main{\r\n    width: 800px;\r\n    padding: 30px;\r\n    margin: 50px auto;\r\n    background-color: white;\r\n}\r\n.header{\r\n    width: 100%;\r\n    height: 50px;\r\n    padding: 0 40px;\r\n    background-color: #EE7419;\r\n}\r\n.header span{\r\n    color: white;\r\n    margin: 20px;\r\n    line-height: 50px;\r\n}\r\n\r\n.color-y {\r\n    background-color: #EE7419;\r\n    color: white;\r\n}\r\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 7 */
+
+/***/ 25:
 /***/ (function(module, exports) {
 
 
@@ -732,65 +859,24 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(9);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!./index.css", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!./index.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".add {\r\n    display: block;\r\n    width: 100px;\r\n    height: 40px;\r\n    line-height: 40px;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    margin: auto;\r\n    overflow: hidden;\r\n}\r\n.main{\r\n    padding: 50px 0;\r\n}", ""]);
-
-// exports
-
-
-/***/ }),
-/* 10 */
+/***/ 26:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return header; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_comJs_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_comJs_js__ = __webpack_require__(14);
 
 
 let header = function () {
-  let node = Object(__WEBPACK_IMPORTED_MODULE_0__common_comJs_js__["b" /* c */])('div');
-  let tit = Object(__WEBPACK_IMPORTED_MODULE_0__common_comJs_js__["b" /* c */])('span');
+  let node = Object(__WEBPACK_IMPORTED_MODULE_0__common_comJs_js__["d" /* c */])('div');
+  let tit = Object(__WEBPACK_IMPORTED_MODULE_0__common_comJs_js__["d" /* c */])('span');
   tit.innerText = '问卷管理';
-  let mynaire = Object(__WEBPACK_IMPORTED_MODULE_0__common_comJs_js__["b" /* c */])('span');
+  let mynaire = Object(__WEBPACK_IMPORTED_MODULE_0__common_comJs_js__["d" /* c */])('span');
   mynaire.innerText = '我的问卷';
+  mynaire.onclick = function () {
+    window.location.href = 'list.html';
+  };
   node.className = 'header';
   node.appendChild(tit);
   node.appendChild(mynaire);
@@ -799,4 +885,5 @@ let header = function () {
 
 
 /***/ })
-/******/ ]);
+
+/******/ });
