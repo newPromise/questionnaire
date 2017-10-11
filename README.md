@@ -10,7 +10,7 @@
 
 使用了部分的 `es6` 语法，借助 `babel` 进行编译, 使用了 `eslint` 规范我的代码。
 
-demo 地址: [微型问卷调查表](https://qianduangaoshou.github.io/demo/questionNaire/data.html)
+demo 地址: [微型问卷调查表](https://qianduangaoshou.github.io/demo/questionNaire/)
 
 启动:  
 
